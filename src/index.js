@@ -59,21 +59,6 @@ function getContributorsForRepo(owner, repo) {
   } catch { return []; }
 }
 
-function getPRCountsForRepo(owner, repo) {
-  try {
-    const raw = execSync(
-      `gh api "repos/${owner}/${repo}/pulls?state=all&per_page=100" --jq '.[] | .user.login'`,
-      { stdio: ['pipe', 'pipe', 'pipe'], encoding: 'utf8' }
-    );
-    if (!raw.trim()) return {};
-    const counts = {};
-    raw.trim().split('\n').forEach(login => {
-      counts[login] = (counts[login] || 0) + 1;
-    });
-    return counts;
-  } catch { return {}; }
-}
-
 function getRepos(user) {
   try {
     const raw = execSync(
@@ -103,8 +88,10 @@ function aggregateContributors(contributorLists, prCountsMap) {
   return Object.values(map).map(c => ({ ...c, repos: c.repos.size }));
 }
 
+const SORT_FIELDS = new Set(['commits', 'prs', 'additions', 'deletions']);
+
 function sortContributors(contributors, sort) {
-  const field = sort === 'prs' ? 'prs' : sort === 'additions' ? 'additions' : sort === 'deletions' ? 'deletions' : 'commits';
+  const field = SORT_FIELDS.has(sort) ? sort : 'commits';
   return contributors.sort((a, b) => (b[field] || 0) - (a[field] || 0));
 }
 
