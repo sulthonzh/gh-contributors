@@ -20,7 +20,7 @@ async function main() {
     const sorted = sortContributors(aggregated, opts.sort);
     const fmt = opts.json ? formatJSON(sorted, opts.top) : opts.markdown ? formatMarkdown(sorted, opts.top) : formatText(sorted, opts.top);
     console.log(fmt);
-    process.exit(sorted.length > 0 ? 0 : 0);
+    process.exit(0);
   }
 
   const repos = getRepos(user);

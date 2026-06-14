@@ -100,6 +100,24 @@ describe('sortContributors', () => {
     const sorted = sortContributors(data, 'prs');
     assert.equal(sorted[0].login, 'b');
   });
+
+  it('sorts by additions', () => {
+    const data = [{ login: 'a', commits: 10, additions: 5 }, { login: 'b', commits: 1, additions: 99 }];
+    const sorted = sortContributors(data, 'additions');
+    assert.equal(sorted[0].login, 'b');
+  });
+
+  it('sorts by deletions', () => {
+    const data = [{ login: 'a', commits: 10, deletions: 5 }, { login: 'b', commits: 1, deletions: 99 }];
+    const sorted = sortContributors(data, 'deletions');
+    assert.equal(sorted[0].login, 'b');
+  });
+
+  it('falls back to commits for unknown sort field', () => {
+    const data = [{ login: 'a', commits: 1 }, { login: 'b', commits: 10 }];
+    const sorted = sortContributors(data, 'unknown');
+    assert.equal(sorted[0].login, 'b');
+  });
 });
 
 describe('formatText', () => {
