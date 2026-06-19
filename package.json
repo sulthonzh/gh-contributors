@@ -20,14 +20,21 @@
     "node": ">=18"
   },
   "files": [
-    "dist/",
     "cli.js",
     "src/",
-    "package.json",
     "README.md",
     "LICENSE"
   ],
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sulthonzh/gh-contributors"
+  },
+  "homepage": "https://github.com/sulthonzh/gh-contributors#readme",
+  "bugs": {
+    "url": "https://github.com/sulthonzh/gh-contributors/issues"
+  },
+  "author": "sulthonzh"
 }
